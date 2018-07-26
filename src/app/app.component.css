@@ -1,0 +1,29 @@
+.container {
+  padding: 100px 350px;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+.completed {
+  text-decoration: line-through;
+  color: lightgrey;
+}
+
+.control-bar {
+  justify-content:space-between;
+  align-items:center;
+}
+
+.todo .delete-todo-button {
+  visibility: hidden;
+}
+
+.todo:hover .delete-todo-button {
+  visibility: visible;
+}
+
+.clear-completed-hidden {
+  visibility: hidden;
+}
