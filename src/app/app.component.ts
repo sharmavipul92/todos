@@ -19,11 +19,12 @@ export class AppComponent {
     });
   }
 
-  addTodo(text){
-    if(text){
-      this._dataService.addTodo(text).subscribe(res => {
+  addTodo(title){
+    if(title){
+      this._dataService.addTodo(title).subscribe(res => {
         if(res.status === '200'){
-          this.todos.unshift({_id: res.data[0].id, text, isCompleted: false})
+          console.log(res);
+          this.todos.unshift({_id: res.data[0].id, title, isCompleted: false})
           this.updateTodoList(this.activeListNumber)
           this.todoInput = ''
         }
@@ -32,7 +33,7 @@ export class AppComponent {
   }
 
   changeState(todo){
-    this._dataService.updateTodos(todo.text, todo.isCompleted, todo._id).subscribe(res => {
+    this._dataService.updateTodos(todo.title, todo.isCompleted, todo._id).subscribe(res => {
       if(res === '200') {
         this.todos.find(item => item._id === todo._id).isCompleted = todo.isCompleted
         this.updateTodoList(this.activeListNumber);
@@ -44,7 +45,7 @@ export class AppComponent {
   changeAllStates(){
     const value = this.todos.filter(item => item.isCompleted).length === this.todos.length ? false : true;
     this._dataService.updateTodos(null, value, null).subscribe(res => {
-      if(res === '200') {
+      if(res.status === '200') {
         this.todos.forEach(item => item.isCompleted = value);
         this.updateTodoList(this.activeListNumber);
       }
@@ -55,18 +56,18 @@ export class AppComponent {
     if(event.type === 'keydown'){
       event.srcElement.blur();
     } else if(event.type === 'blur'){
-      const text = event.target.innerText;
-      if(!text){
+      const title = event.target.innerText;
+      if(!title){
         this._dataService.removeTodos([todo._id]).subscribe(res => {
           if(res === '200') {
             this.todos = this.todos.filter(item => item._id !== todo._id);
             this.updateTodoList(this.activeListNumber);
           }
         });
-      } else if(todo.text !== text){
-        this._dataService.updateTodos(text, todo.isCompleted, todo._id).subscribe(res => {
+      } else if(todo.title !== title){
+        this._dataService.updateTodos(title, todo.isCompleted, todo._id).subscribe(res => {
           if(res === '200') {
-            this.todos.find(item => item._id === todo._id).text = text;
+            this.todos.find(item => item._id === todo._id).title = title;
             this.updateTodoList(this.activeListNumber);
           }
         });

@@ -15,14 +15,6 @@ app.use(bodyParser.urlencoded({ extended: false}));
 // Angular DIST output folder
 app.use(express.static(path.join(__dirname, 'dist')));
 
-// API location
-app.use('/api', routes);
-
-// Send all other requests to the Angular app
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dist/index.html'));
-});
-
 app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -30,10 +22,18 @@ app.use(function (req, res, next) {
   next();
 });
 
+// API location
+app.use('/', routes);
+
+// Send all other requests to the Angular app
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist/index.html'));
+});
+
 routes.get('/todos', api.getTodos);
-routes.post('/todo', api.addTodo);
+routes.post('/', api.addTodo);
 routes.put('/todos', api.updateTodos);
-routes.delete('/todos', api.removeTodos);
+routes.delete('/', api.removeTodos);
 
 //Set Port
 const port = process.env.PORT || '4000';

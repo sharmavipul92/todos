@@ -29,7 +29,8 @@ const sendError = (err, res) => {
 let response = {
   status: 200,
   data: [],
-  message: null
+  message: null,
+  title: null
 };
 
 // Get todos
@@ -51,10 +52,11 @@ module.exports.getTodos = function(req, res) {
 // create todo
 module.exports.addTodo = function(req, res) {
   connection((db) => {
-    db.collection("todos").insertOne({text: req.body.text, isCompleted: false})
-      .then((data) => {
+    db.collection("todos").insertOne({title: req.body.title, isCompleted: false})
+      .then((result) => {
         response.status = '200';
-        response.data = [{id: data.insertedId}]; 
+        response.data = [{id: result.insertedId}];
+        response.title = result.ops[0].title;
         res.json(response);
       })
       .catch((err) => {
@@ -66,9 +68,9 @@ module.exports.addTodo = function(req, res) {
 // update todo
 module.exports.updateTodos = function(req, res) {
   connection((db) => {
-    if(!req.body.text && !req.body.id){
+    if(!req.body.title && !req.body.id){
       db.collection("todos").updateMany({}, { $set: {isCompleted: req.body.state}})
-        .then(() => {
+        .then((result) => {
           response.status = '200';
           res.json(response);
         })
@@ -76,7 +78,7 @@ module.exports.updateTodos = function(req, res) {
           sendError(err, res);
         });
     } else {
-      db.collection("todos").updateOne({_id: ObjectID(req.body.id)}, { $set: {isCompleted: req.body.state, text: req.body.text}})
+      db.collection("todos").updateOne({_id: ObjectID(req.body.id)}, { $set: {isCompleted: req.body.state, title: req.body.title}})
         .then(() => {
           response.status = '200';
           res.json(response);

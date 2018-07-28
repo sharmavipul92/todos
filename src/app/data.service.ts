@@ -13,19 +13,19 @@ export class DataService {
   constructor(private _http: Http) { }
 
   getTodos() {
-    return this._http.get('/api/todos').pipe(map(result => this.result = result.json().data));
+    return this._http.get('/todos').pipe(map(result => this.result = result.json().data));
   }
 
-  addTodo(text) {
-    return this._http.post('/api/todo', {text}).pipe(map(result => this.result = result.json()));
+  addTodo(title) {
+    return this._http.post('/', {title}).pipe(map(result => this.result = result.json()));
   }
 
-  updateTodos(text, state, id) {
-    return this._http.put('/api/todos', {text, state, id}).pipe(map(result => this.result = result.json().status));
+  updateTodos(title, state, id) {
+    return this._http.put('/todos', {title, state, id}).pipe(map(result => this.result = result.json()));
   }
 
   removeTodos(id) {
-    return this._http.delete('/api/todos', { params: {id: id.join(',')}}).pipe(map(result => this.result = result.json().status));
+    return this._http.delete('/', { params: {id: id.join(',')}}).pipe(map(result => this.result = result.json().status));
   }
 
 }
