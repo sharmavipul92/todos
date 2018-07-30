@@ -4,8 +4,8 @@ const ObjectID = require('mongodb').ObjectID;
 const uuidv4 = require('uuid/v4');
 
 // Connection URL
-const url = 'mongodb://localhost:27017/todos';
-//const url = 'mongodb://admin:Todoapp111!@ds137281.mlab.com:37281/my-precious-todos';
+//const url = 'mongodb://localhost:27017/todos';
+const url = 'mongodb://admin:Todoapp111!@ds137281.mlab.com:37281/my-precious-todos';
 
 // Database Name
 //const dbName = 'todos';
