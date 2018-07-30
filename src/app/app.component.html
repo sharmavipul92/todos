@@ -15,9 +15,9 @@
       <table class="table is-fullwidth is-hoverable">
         <tbody>
           <tr class="todo" *ngFor="let todo of todosBackup">
-            <td style="width:1%"><input type="checkbox" [(ngModel)]="todo.isCompleted" (change)="changeState(todo)" /></td>
-            <td contenteditable="true" [ngClass]="{'completed': todo.isCompleted}" (keydown.enter)="editTodo($event, todo);false" (blur)="editTodo($event, todo)">{{ todo.title }}</td>
-            <td style="width:1%"><a class="delete delete-todo-button" (click)="removeTodos(todo)"></a></td>
+            <td style="width:1%"><input type="checkbox" [(ngModel)]="todo.completed" (change)="changeState(todo)" /></td>
+            <td contenteditable="true" [ngClass]="{'completed': todo.completed}" (keydown.enter)="editTodo($event, todo);false" (blur)="editTodo($event, todo)">{{ todo.title }}</td>
+            <td style="width:1%"><a class="delete delete-todo-button" (click)="removeTodoById(todo._id)"></a></td>
           </tr>
         </tbody>
       </table>
@@ -30,7 +30,7 @@
         <button class="button is-white" [ngClass]="{'is-active': activeListNumber === 2}" type="button" (click)="updateTodoList(2)">Completed</button>
       </div>
       <div>
-        <button [ngClass]="{'element-hidden': !isCompletedCount()}" class="button is-text" type="button" (click)="removeTodos()">Clear Completed</button>
+        <button [ngClass]="{'element-hidden': !completedCount()}" class="button is-text" type="button" (click)="removeTodos()">Clear Completed</button>
       </div>
     </div>
   </div>
